@@ -8,13 +8,10 @@ COPY ./requirements requirements
 COPY ./src /src 
 
 RUN apk add --update --no-cache postgresql-client
-RUN apk add --update --no-cache --virtual .temp_depend \
-        gcc libc-dev linux-headers  postgresql-dev
-
 RUN pip install -U pip 
 RUN apk add --update --no-cache --virtual .temp_depend \
         gcc libc-dev linux-headers  postgresql-dev
-RUN pip install -r /requirements/base.txt
+RUN pip install -r /requirements/dev.txt
 RUN apk del .temp_depend 
 WORKDIR /src 
 

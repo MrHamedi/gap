@@ -18,9 +18,10 @@ services:
       - DEBUG=${DEBUG}
     command:  >             
           sh -c  "python manage.py makemigrations &&
-          python manage.py migrate"
+          python manage.py migrate &&
+          gunicorn gap.wsgi:application --bind 0.0.0.0:8000  --reload"
     depends_on:
-      db
+      - db
   db:
     image: postgres:15-alpine
     volumes:
@@ -29,5 +30,6 @@ services:
      - POSTGRES_DB=${DB_NAME}
      - POSTGRES_USER=${DB_USER}
      - POSTGRES_PASSWORD=${DB_PASSWORD}
-  gunicorn:
-    command: "gunicorn gap.wsgi:application --bind 0.0.0.0:8000  --reload"
+    
+volumes:
+  postgres_data:
