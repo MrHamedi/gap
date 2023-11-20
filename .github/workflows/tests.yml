@@ -40,4 +40,4 @@ jobs:
           echo "DB_PASSWORD=${DB_PASSWORD}" >> $GITHUB_ENV
           echo "DB_NAME=${DB_NAME}" >> $GITHUB_ENV
      - name: Test
-       run: docker compose run --rm ab sh -c "python3 manage.py test"
+       run: docker compose run --rm gap sh -c "python3 manage.py test"
