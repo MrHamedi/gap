@@ -4,8 +4,8 @@ from django.contrib.auth import get_user_model
 from .models import Server, Channel, Category
 
 
-def user_creator(email="test@mail.com", password="test_password"):
-    return get_user_model().objects.create_user(email=email, password=password)
+def user_creator(username="username", email="test@mail.com", password="test_password"):
+    return get_user_model().objects.create_user(username=username, email=email, password=password)
 
 
 class ServerModelTests(TestCase):
