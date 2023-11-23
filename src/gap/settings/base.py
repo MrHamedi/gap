@@ -21,22 +21,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__fil
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-
-
 # Application definition
-
 INSTALLED_APPS = [
-    #django apps 
+    # django apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #3rd party
+    # 3rd party
     'drf_spectacular',
-    #cutome apps 
-    "core.apps.CoreConfig"
+    # cutome apps 
+    "core.apps.CoreConfig",
+    "server.apps.ServerConfig",
 ]
 
 MIDDLEWARE = [
