@@ -17,10 +17,10 @@ class Category(models.Model):
 
 class Server(models.Model):
     name = models.CharField(max_length=300, verbose_name="عنوان")
-    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, 
+    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE,
                               verbose_name="مالک")
     description = models.TextField(verbose_name="توضیحات")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, 
+    category = models.ForeignKey(Category, on_delete=models.CASCADE,
                                  verbose_name="نوع")
 
     class Meta:
@@ -47,6 +47,6 @@ class Channel(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.name.lower()
-  
+
     def __str__(self):
         return self.name
