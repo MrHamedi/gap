@@ -15,10 +15,8 @@ services:
       - DB_HOST=${DB_HOST}
       - DB_PASSWORD=${DB_PASSWORD}
       - DB_PORT=${DB_PORT}
-    command:  >             
-          sh -c  "python manage.py makemigrations &&
-          python manage.py migrate &&
-          gunicorn gap.wsgi:application --bind 0.0.0.0:8000  --reload"
+    command: >
+      sh -c "python3 manage.py call_db &&  python manage.py makemigrations &&  python manage.py migrate &&  gunicorn gap.wsgi:application --bind 0.0.0.0:8000  --reload"
     depends_on:
       - db
     tty: true
@@ -27,9 +25,9 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-     - POSTGRES_DB=${DB_NAME}
-     - POSTGRES_USER=${DB_USER}
-     - POSTGRES_PASSWORD=${DB_PASSWORD}
-    
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+
 volumes:
   postgres_data:
