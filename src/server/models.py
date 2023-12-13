@@ -22,6 +22,7 @@ class Server(models.Model):
     description = models.TextField(verbose_name="توضیحات")
     category = models.ForeignKey(Category, on_delete=models.CASCADE,
                                  verbose_name="نوع")
+    member = models.ManyToManyField(get_user_model())
 
     class Meta:
         ordering = ('name',)
@@ -47,6 +48,7 @@ class Channel(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.name.lower()
+        super(Channel, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
