@@ -1,41 +1,45 @@
-from django.test import TestCase
+from django import test
 from django.contrib.auth import get_user_model
-# Create your tests here.
+
+from .forms import UserCreationForm
+from .models import CustomeUser
 
 
-class UserTestCase(TestCase):
+class UserTest(test.TestCase):
 
     def setUp(self):
-        username = "username"
-        email = "user@gmail.com"
-        password = "pass"
-        self.user = get_user_model().objects.create_user(
-            username=username,
-            email=email,
-            password=password,
-        )
+        self.user = get_user_model().objects.create(
+            username="test_username",
+            first_name="first",
+            last_name="last",
+            password="test_password")
+        self.user.set_password("test_password")
+        self.user.save()
 
-    def test_user_credentials(self):
-        self.assertEqual(self.user.username, "username")
-        self.assertEqual(self.user.email, "user@gmail.com")
-        self.assertTrue(self.user.check_password("pass"))
+    def test_user(self):
+        self.assertIsInstance(self.user, CustomeUser)
+        self.assertEqual(self.user.username, "test_username")
+        self.assertEqual(self.user.first_name, "first")
+        self.assertEqual(self.user.last_name, "last")
 
-    def test_email_normalized(self):
-        user = get_user_model().objects.create_user(username="new _username",
-                                                    email="example@GMAIL.COM", 
-                                                    password='pass'
-        )
-        user.save()
-        self.assertEqual(user.email, 'example@gmail.com')
+    def test_user_creation_form(self):
+        data_entry = {
+            "first_name": "first",
+            "last_name": "last",
+            "password": "password",
+            "password2": "password",
+            "username": "username",
+        }
+        form = UserCreationForm(data_entry)
+        self.assertTrue(form.is_valid())
 
-    def test_credentials_superuser(self):
-        username="super_user_username"
-        email = "superuser@gmail.com"
-        password = "pass"
-        user = get_user_model().objects.create_superuser(
-            username=username,
-            email=email,
-            password=password,
-        )
-        self.assertTrue(user.is_staff)
-        self.assertTrue(user.is_superuser)
+    def test_error_user_creation_form(self):
+        data_entry = {
+            "first_name": "first",
+            "last_name": "last",
+            "password": "password",
+            "password2": "un_matching_password2",
+            "username": "username",
+        }
+        form = UserCreationForm(data_entry)
+        self.assertFalse(form.is_valid())
